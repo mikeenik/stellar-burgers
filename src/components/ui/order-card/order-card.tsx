@@ -35,8 +35,9 @@ export const OrderCardUI: FC<OrderCardUIProps> = memo(
       <div className={`pt-6 ${styles.order_content}`}>
         <ul className={styles.ingredients}>
           {orderInfo.ingredientsToShow.map((ingredient, index) => {
-            let zIndex = maxIngredients - index;
-            let right = 20 * index;
+            const INGREDIENT_OFFSET = 20;
+            const zIndex = maxIngredients - index;
+            const right = INGREDIENT_OFFSET * index;
             return (
               <li
                 className={styles.img_wrap}
