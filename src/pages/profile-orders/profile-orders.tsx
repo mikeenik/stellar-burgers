@@ -5,24 +5,28 @@ import { useSelector, useDispatch } from '../../services/store';
 import {
   getUserOrders,
   getUserOrdersLoading,
-  getUserOrdersError
+  getUserOrdersError,
+  getIngredients,
+  getIngredientsLoading
 } from '../../services/selectors';
 import { fetchUserOrders } from '../../services/slices/user-orders-slice';
+import { fetchIngredients } from '../../services/slices/ingredients-slice';
 
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
   const orders: TOrder[] = useSelector(getUserOrders);
   const isLoading = useSelector(getUserOrdersLoading);
   const error = useSelector(getUserOrdersError);
+  const ingredients = useSelector(getIngredients);
+  const ingredientsLoading = useSelector(getIngredientsLoading);
 
   useEffect(() => {
-    console.log('ProfileOrders: Запуск загрузки заказов');
     dispatch(fetchUserOrders());
-  }, [dispatch]);
 
-  console.log('ProfileOrders: orders =', orders);
-  console.log('ProfileOrders: isLoading =', isLoading);
-  console.log('ProfileOrders: error =', error);
+    if (ingredients.length === 0) {
+      dispatch(fetchIngredients());
+    }
+  }, [dispatch, ingredients.length]);
 
   if (isLoading) {
     return <div>Загрузка заказов...</div>;

@@ -18,13 +18,12 @@ export const fetchUserOrders = createAsyncThunk(
   'userOrders/fetchUserOrders',
   async (_, { rejectWithValue }) => {
     try {
-      console.log('fetchUserOrders: Запуск API запроса');
       const response = await getOrdersApi();
-      console.log('fetchUserOrders: Получен ответ:', response);
       return response || [];
-    } catch (error: any) {
-      console.error('fetchUserOrders: Ошибка:', error);
-      return rejectWithValue(error.message || 'Ошибка загрузки заказов');
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка загрузки заказов'
+      );
     }
   }
 );

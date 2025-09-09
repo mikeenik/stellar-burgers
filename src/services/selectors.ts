@@ -7,9 +7,10 @@ export const getIngredientsLoading = (state: RootState) =>
 export const getIngredientsError = (state: RootState) =>
   state.ingredients.error;
 
-export const getConstructorBun = (state: RootState) => state.constructor.bun;
+export const getConstructorBun = (state: RootState) =>
+  state.burgerConstructor.bun;
 export const getConstructorIngredients = (state: RootState) =>
-  state.constructor.ingredients;
+  state.burgerConstructor.ingredients;
 
 export const getOrderRequest = (state: RootState) => state.order.orderRequest;
 export const getOrderModalData = (state: RootState) =>

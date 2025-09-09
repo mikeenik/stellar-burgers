@@ -87,10 +87,6 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path='*' element={<NotFound404 />} />
-        </Routes>
-
-        <Routes>
           <Route
             path='/feed/:number'
             element={
@@ -117,6 +113,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route path='*' element={<NotFound404 />} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -22,8 +22,10 @@ export const createOrder = createAsyncThunk(
     try {
       const response = await orderBurgerApi(ingredients);
       return response.order || null;
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Ошибка создания заказа');
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка создания заказа'
+      );
     }
   }
 );
@@ -34,8 +36,10 @@ export const fetchOrderByNumber = createAsyncThunk(
     try {
       const response = await getOrderByNumberApi(number);
       return response.orders?.[0] || null;
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Ошибка загрузки заказа');
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка загрузки заказа'
+      );
     }
   }
 );

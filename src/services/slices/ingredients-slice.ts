@@ -20,8 +20,10 @@ export const fetchIngredients = createAsyncThunk(
     try {
       const response = await getIngredientsApi();
       return response || [];
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Ошибка загрузки ингредиентов');
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка загрузки ингредиентов'
+      );
     }
   }
 );

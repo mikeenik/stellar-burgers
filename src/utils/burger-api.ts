@@ -1,4 +1,4 @@
-import { setCookie, getCookie } from './cookie';
+import { setCookie, getCookie, deleteCookie } from './cookie';
 import { TIngredient, TOrder, TOrdersData, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
@@ -44,13 +44,19 @@ export const fetchWithRefresh = async <T>(
     return await checkResponse<T>(res);
   } catch (err) {
     if ((err as { message: string }).message === 'jwt expired') {
-      const refreshData = await refreshToken();
-      if (options.headers) {
-        (options.headers as { [key: string]: string }).authorization =
-          refreshData.accessToken;
+      try {
+        const refreshData = await refreshToken();
+        if (options.headers) {
+          (options.headers as { [key: string]: string }).authorization =
+            refreshData.accessToken;
+        }
+        const res = await fetch(url, options);
+        return await checkResponse<T>(res);
+      } catch (refreshErr) {
+        deleteCookie('accessToken');
+        localStorage.removeItem('refreshToken');
+        return Promise.reject(refreshErr);
       }
-      const res = await fetch(url, options);
-      return await checkResponse<T>(res);
     } else {
       return Promise.reject(err);
     }

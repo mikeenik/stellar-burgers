@@ -8,7 +8,7 @@ import userOrdersReducer from './slices/user-orders-slice';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  constructor: constructorReducer,
+  burgerConstructor: constructorReducer,
   order: orderReducer,
   feed: feedReducer,
   auth: authReducer,

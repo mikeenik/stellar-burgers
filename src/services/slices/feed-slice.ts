@@ -21,8 +21,10 @@ export const fetchFeeds = createAsyncThunk(
     try {
       const response = await getFeedsApi();
       return response || { orders: [], total: 0, totalToday: 0 };
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Ошибка загрузки ленты заказов');
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка загрузки ленты заказов'
+      );
     }
   }
 );

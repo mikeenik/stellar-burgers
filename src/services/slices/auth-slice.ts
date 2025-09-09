@@ -36,8 +36,10 @@ export const loginUser = createAsyncThunk(
         return response.user;
       }
       return rejectWithValue('Ошибка авторизации');
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Ошибка авторизации');
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка авторизации'
+      );
     }
   }
 );
@@ -53,8 +55,10 @@ export const registerUser = createAsyncThunk(
         return response.user;
       }
       return rejectWithValue('Ошибка регистрации');
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Ошибка регистрации');
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка регистрации'
+      );
     }
   }
 );
@@ -68,9 +72,11 @@ export const getUser = createAsyncThunk(
         return response.user;
       }
       return rejectWithValue('Ошибка получения данных пользователя');
-    } catch (error: any) {
+    } catch (error: unknown) {
       return rejectWithValue(
-        error.message || 'Ошибка получения данных пользователя'
+        error instanceof Error
+          ? error.message
+          : 'Ошибка получения данных пользователя'
       );
     }
   }
@@ -85,9 +91,11 @@ export const updateUser = createAsyncThunk(
         return response.user;
       }
       return rejectWithValue('Ошибка обновления данных пользователя');
-    } catch (error: any) {
+    } catch (error: unknown) {
       return rejectWithValue(
-        error.message || 'Ошибка обновления данных пользователя'
+        error instanceof Error
+          ? error.message
+          : 'Ошибка обновления данных пользователя'
       );
     }
   }
@@ -101,10 +109,12 @@ export const logoutUser = createAsyncThunk(
       deleteCookie('accessToken');
       localStorage.removeItem('refreshToken');
       return null;
-    } catch (error: any) {
+    } catch (error: unknown) {
       deleteCookie('accessToken');
       localStorage.removeItem('refreshToken');
-      return rejectWithValue(error.message || 'Ошибка выхода');
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка выхода'
+      );
     }
   }
 );
@@ -122,10 +132,12 @@ export const checkAuth = createAsyncThunk(
         return response.user;
       }
       return rejectWithValue('Ошибка проверки авторизации');
-    } catch (error: any) {
+    } catch (error: unknown) {
       deleteCookie('accessToken');
       localStorage.removeItem('refreshToken');
-      return rejectWithValue(error.message || 'Ошибка проверки авторизации');
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Ошибка проверки авторизации'
+      );
     }
   }
 );
