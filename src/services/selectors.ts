@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from './root-reducer';
 
 export const getIngredients = (state: RootState) =>
@@ -23,11 +24,14 @@ export const getFeedTotal = (state: RootState) => state.feed.total;
 export const getFeedTotalToday = (state: RootState) => state.feed.totalToday;
 export const getFeedLoading = (state: RootState) => state.feed.isLoading;
 export const getFeedError = (state: RootState) => state.feed.error;
-export const getFeedData = (state: RootState) => ({
-  orders: state.feed.orders,
-  total: state.feed.total,
-  totalToday: state.feed.totalToday
-});
+export const getFeedData = createSelector(
+  [getFeedOrders, getFeedTotal, getFeedTotalToday],
+  (orders, total, totalToday) => ({
+    orders,
+    total,
+    totalToday
+  })
+);
 
 export const getUser = (state: RootState) => state.auth.user;
 export const getIsAuthenticated = (state: RootState) =>

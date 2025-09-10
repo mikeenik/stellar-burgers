@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { TOrdersData } from '@utils-types';
-import { getFeedsApi } from '@api';
+import { TOrdersData } from '../../utils/types';
+import { getFeedsApi } from '../../utils/burger-api';
 
 export interface FeedState extends TOrdersData {
   isLoading: boolean;

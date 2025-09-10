@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { TOrder } from '@utils-types';
+import { TOrder } from '../../utils/types';
 import { FeedInfoUI } from '../ui/feed-info';
 import { useSelector } from '../../services/store';
 import { getFeedOrders, getFeedData } from '../../services/selectors';
@@ -16,7 +16,6 @@ export const FeedInfo: FC = () => {
   const feed = useSelector(getFeedData);
 
   const readyOrders = getOrders(orders, 'done');
-
   const pendingOrders = getOrders(orders, 'pending');
 
   return (
