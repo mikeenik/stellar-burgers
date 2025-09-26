@@ -1,4 +1,19 @@
 describe('Constructor Page', () => {
+  const SELECTORS = {
+    ingredient: '[data-testid="ingredient"]',
+    constructor: '[data-testid="constructor"]',
+    modal: '[data-testid="modal"]',
+    modalClose: '[data-testid="modal-close"]',
+    modalOverlay: '[data-testid="modal-overlay"]',
+    orderButton: '[data-testid="order-button"]',
+    orderModal: '[data-testid="order-modal"]'
+  };
+
+  const TEST_DATA = {
+    bunName: 'Краторная булка N-200i',
+    orderNumber: '12345'
+  };
+
   beforeEach(() => {
     cy.intercept('GET', '**/api/ingredients', { fixture: 'ingredients.json' }).as('getIngredients');
     cy.intercept('GET', '**/api/auth/user', { fixture: 'user.json' }).as('getUser');
@@ -31,57 +46,57 @@ describe('Constructor Page', () => {
   });
 
   it('should display constructor area', () => {
-    cy.get('[data-testid="constructor"]').should('be.visible');
+    cy.get(SELECTORS.constructor).should('be.visible');
   });
 
   it('should add ingredient to constructor', () => {
-    cy.get('[data-testid="ingredient"]').first().trigger('dragstart');
-    cy.get('[data-testid="constructor"]').trigger('drop');
+    cy.get(SELECTORS.ingredient).first().trigger('dragstart');
+    cy.get(SELECTORS.constructor).trigger('drop');
     
-    cy.get('[data-testid="constructor"]').should('contain', 'Краторная булка N-200i');
+    cy.get(SELECTORS.constructor).should('contain', TEST_DATA.bunName);
   });
 
   it('should open ingredient modal on click', () => {
-    cy.get('[data-testid="ingredient"]').first().click();
+    cy.get(SELECTORS.ingredient).first().click();
     
-    cy.get('[data-testid="modal"]').should('be.visible');
-    cy.get('[data-testid="modal"]').should('contain', 'Краторная булка N-200i');
+    cy.get(SELECTORS.modal).should('be.visible');
+    cy.get(SELECTORS.modal).should('contain', TEST_DATA.bunName);
   });
 
   it('should close ingredient modal on close button click', () => {
-    cy.get('[data-testid="ingredient"]').first().click();
-    cy.get('[data-testid="modal"]').should('be.visible');
+    cy.get(SELECTORS.ingredient).first().click();
+    cy.get(SELECTORS.modal).should('be.visible');
     
-    cy.get('[data-testid="modal-close"]').click();
+    cy.get(SELECTORS.modalClose).click();
     
-    cy.get('[data-testid="modal"]').should('not.exist');
+    cy.get(SELECTORS.modal).should('not.exist');
   });
 
   it('should close ingredient modal on overlay click', () => {
-    cy.get('[data-testid="ingredient"]').first().click();
-    cy.get('[data-testid="modal"]').should('be.visible');
+    cy.get(SELECTORS.ingredient).first().click();
+    cy.get(SELECTORS.modal).should('be.visible');
     
-    cy.get('[data-testid="modal-overlay"]').click({ force: true });
+    cy.get(SELECTORS.modalOverlay).click({ force: true });
     
-    cy.get('[data-testid="modal"]').should('not.exist');
+    cy.get(SELECTORS.modal).should('not.exist');
   });
 
   it('should create order successfully', () => {
-    cy.get('[data-testid="ingredient"]').first().trigger('dragstart');
-    cy.get('[data-testid="constructor"]').trigger('drop');
+    cy.get(SELECTORS.ingredient).first().trigger('dragstart');
+    cy.get(SELECTORS.constructor).trigger('drop');
     
-    cy.get('[data-testid="constructor"]').should('contain', 'Краторная булка N-200i');
+    cy.get(SELECTORS.constructor).should('contain', TEST_DATA.bunName);
     
-    cy.get('[data-testid="order-button"]').click();
+    cy.get(SELECTORS.orderButton).click();
     
     cy.wait('@createOrder');
     
-    cy.get('[data-testid="order-modal"]').should('be.visible');
-    cy.get('[data-testid="order-modal"]').should('contain', '12345');
+    cy.get(SELECTORS.orderModal).should('be.visible');
+    cy.get(SELECTORS.orderModal).should('contain', TEST_DATA.orderNumber);
     
-    cy.get('[data-testid="modal-close"]').click();
+    cy.get(SELECTORS.modalClose).click();
     
-    cy.get('[data-testid="constructor"]').should('not.contain', 'Краторная булка N-200i');
+    cy.get(SELECTORS.constructor).should('not.contain', TEST_DATA.bunName);
   });
 
   it('should show order button', () => {

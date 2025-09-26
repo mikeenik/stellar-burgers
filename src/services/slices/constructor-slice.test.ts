@@ -33,48 +33,50 @@ const mockIngredient: TConstructorIngredient = {
 };
 
 describe('constructor slice', () => {
-  const initialState = {
-    bun: null,
-    ingredients: []
-  };
 
   test('should return the initial state', () => {
-    expect(constructorReducer(undefined, { type: 'unknown' })).toEqual(initialState);
+    expect(constructorReducer(undefined, { type: 'unknown' })).toEqual({
+      bun: null,
+      ingredients: []
+    });
   });
 
   test('should handle addBun', () => {
-    expect(constructorReducer(initialState, addBun(mockBun))).toEqual({
-      ...initialState,
-      bun: mockBun
+    expect(constructorReducer(undefined, addBun(mockBun))).toEqual({
+      bun: mockBun,
+      ingredients: []
     });
   });
 
   test('should handle addIngredient', () => {
-    expect(constructorReducer(initialState, addIngredient(mockIngredient))).toEqual({
-      ...initialState,
+    expect(constructorReducer(undefined, addIngredient(mockIngredient))).toEqual({
+      bun: null,
       ingredients: [mockIngredient]
     });
   });
 
   test('should handle removeIngredient', () => {
-    const state = { ...initialState, ingredients: [mockIngredient] };
+    const state = { bun: null, ingredients: [mockIngredient] };
     expect(constructorReducer(state, removeIngredient('ingredient-1'))).toEqual({
-      ...state,
+      bun: null,
       ingredients: []
     });
   });
 
   test('should handle moveIngredient', () => {
     const ingredient2 = { ...mockIngredient, id: 'ingredient-2' };
-    const state = { ...initialState, ingredients: [mockIngredient, ingredient2] };
+    const state = { bun: null, ingredients: [mockIngredient, ingredient2] };
     expect(constructorReducer(state, moveIngredient({ dragIndex: 0, hoverIndex: 1 }))).toEqual({
-      ...state,
+      bun: null,
       ingredients: [ingredient2, mockIngredient]
     });
   });
 
   test('should handle clearConstructor', () => {
     const state = { bun: mockBun, ingredients: [mockIngredient] };
-    expect(constructorReducer(state, clearConstructor())).toEqual(initialState);
+    expect(constructorReducer(state, clearConstructor())).toEqual({
+      bun: null,
+      ingredients: []
+    });
   });
 });

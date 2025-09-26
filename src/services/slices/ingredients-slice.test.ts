@@ -18,28 +18,28 @@ const mockIngredient: TIngredient = {
 };
 
 describe('ingredients slice', () => {
-  const initialState = {
-    ingredients: [],
-    isLoading: false,
-    error: null
-  };
 
   test('should return the initial state', () => {
-    expect(ingredientsReducer(undefined, { type: 'unknown' })).toEqual(initialState);
+    expect(ingredientsReducer(undefined, { type: 'unknown' })).toEqual({
+      ingredients: [],
+      isLoading: false,
+      error: null
+    });
   });
 
   test('should handle clearError', () => {
-    const state = { ...initialState, error: 'Some error' };
+    const state = { ingredients: [], isLoading: false, error: 'Some error' };
     expect(ingredientsReducer(state, clearError())).toEqual({
-      ...state,
+      ingredients: [],
+      isLoading: false,
       error: null
     });
   });
 
   test('should handle fetchIngredients.pending', () => {
     const action = { type: fetchIngredients.pending.type };
-    expect(ingredientsReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(ingredientsReducer(undefined, action)).toEqual({
+      ingredients: [],
       isLoading: true,
       error: null
     });
@@ -47,18 +47,17 @@ describe('ingredients slice', () => {
 
   test('should handle fetchIngredients.fulfilled', () => {
     const action = { type: fetchIngredients.fulfilled.type, payload: [mockIngredient] };
-    expect(ingredientsReducer(initialState, action)).toEqual({
-      ...initialState,
-      isLoading: false,
+    expect(ingredientsReducer(undefined, action)).toEqual({
       ingredients: [mockIngredient],
+      isLoading: false,
       error: null
     });
   });
 
   test('should handle fetchIngredients.rejected', () => {
     const action = { type: fetchIngredients.rejected.type, payload: 'Fetch failed' };
-    expect(ingredientsReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(ingredientsReducer(undefined, action)).toEqual({
+      ingredients: [],
       isLoading: false,
       error: 'Fetch failed'
     });
