@@ -20,23 +20,24 @@ const mockFeedsData = {
 };
 
 describe('feed slice', () => {
-  const initialState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    isLoading: false,
-    error: null
-  };
 
   test('should return the initial state', () => {
-    expect(feedReducer(undefined, { type: 'unknown' })).toEqual(initialState);
+    expect(feedReducer(undefined, { type: 'unknown' })).toEqual({
+      orders: [],
+      total: 0,
+      totalToday: 0,
+      isLoading: false,
+      error: null
+    });
   });
 
 
   test('should handle fetchFeeds.pending', () => {
     const action = { type: fetchFeeds.pending.type };
-    expect(feedReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(feedReducer(undefined, action)).toEqual({
+      orders: [],
+      total: 0,
+      totalToday: 0,
       isLoading: true,
       error: null
     });
@@ -44,20 +45,21 @@ describe('feed slice', () => {
 
   test('should handle fetchFeeds.fulfilled', () => {
     const action = { type: fetchFeeds.fulfilled.type, payload: mockFeedsData };
-    expect(feedReducer(initialState, action)).toEqual({
-      ...initialState,
-      isLoading: false,
+    expect(feedReducer(undefined, action)).toEqual({
       orders: mockFeedsData.orders,
       total: mockFeedsData.total,
       totalToday: mockFeedsData.totalToday,
+      isLoading: false,
       error: null
     });
   });
 
   test('should handle fetchFeeds.rejected', () => {
     const action = { type: fetchFeeds.rejected.type, payload: 'Fetch failed' };
-    expect(feedReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(feedReducer(undefined, action)).toEqual({
+      orders: [],
+      total: 0,
+      totalToday: 0,
       isLoading: false,
       error: 'Fetch failed'
     });

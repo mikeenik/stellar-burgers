@@ -14,28 +14,28 @@ const mockOrder: TOrder = {
 };
 
 describe('user orders slice', () => {
-  const initialState = {
-    orders: [],
-    isLoading: false,
-    error: null
-  };
 
   test('should return the initial state', () => {
-    expect(userOrdersReducer(undefined, { type: 'unknown' })).toEqual(initialState);
+    expect(userOrdersReducer(undefined, { type: 'unknown' })).toEqual({
+      orders: [],
+      isLoading: false,
+      error: null
+    });
   });
 
   test('should handle clearError', () => {
-    const state = { ...initialState, error: 'Some error' };
+    const state = { orders: [], isLoading: false, error: 'Some error' };
     expect(userOrdersReducer(state, clearError())).toEqual({
-      ...state,
+      orders: [],
+      isLoading: false,
       error: null
     });
   });
 
   test('should handle fetchUserOrders.pending', () => {
     const action = { type: fetchUserOrders.pending.type };
-    expect(userOrdersReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(userOrdersReducer(undefined, action)).toEqual({
+      orders: [],
       isLoading: true,
       error: null
     });
@@ -43,18 +43,17 @@ describe('user orders slice', () => {
 
   test('should handle fetchUserOrders.fulfilled', () => {
     const action = { type: fetchUserOrders.fulfilled.type, payload: [mockOrder] };
-    expect(userOrdersReducer(initialState, action)).toEqual({
-      ...initialState,
-      isLoading: false,
+    expect(userOrdersReducer(undefined, action)).toEqual({
       orders: [mockOrder],
+      isLoading: false,
       error: null
     });
   });
 
   test('should handle fetchUserOrders.rejected', () => {
     const action = { type: fetchUserOrders.rejected.type, payload: 'Fetch failed' };
-    expect(userOrdersReducer(initialState, action)).toEqual({
-      ...initialState,
+    expect(userOrdersReducer(undefined, action)).toEqual({
+      orders: [],
       isLoading: false,
       error: 'Fetch failed'
     });
